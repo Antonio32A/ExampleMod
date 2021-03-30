@@ -111,7 +111,7 @@ shadowJar {
             "FMLCorePluginContainsFMLMod": "true",
             "ForceLoadAsMod": "true",
             "ModSide": "CLIENT",
-            "FMLCorePlugin": "com.antonio32a.examplemod.forge.FMLLoadingPlugin",
+            "FMLCorePlugin": "com.antonio32a.examplemod.core.FMLLoadingPlugin",
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
             "MixinConfigs": "examplemod.mixins.json"
     )
