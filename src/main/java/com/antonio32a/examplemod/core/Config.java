@@ -9,10 +9,10 @@ import java.io.File;
 
 public class Config extends Vigilant {
     @Property(
-            type = PropertyType.SWITCH,
-            name = "Gaming",
-            description = "Are you gaming?",
-            category = "Main"
+        type = PropertyType.SWITCH,
+        name = "Gaming",
+        description = "Are you gaming?",
+        category = "Main"
     )
     public boolean gaming = true;
 

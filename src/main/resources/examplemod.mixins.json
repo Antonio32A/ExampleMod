@@ -2,7 +2,9 @@
     "compatibilityLevel": "JAVA_8",
     "package": "com.antonio32a.examplemod.mixins",
     "refmap": "examplemod.mixins.refmap.json",
-    "mixins": [],
+    "mixins": [
+        "FontRendererMixin"
+    ],
     "client": [],
     "server": []
 }
