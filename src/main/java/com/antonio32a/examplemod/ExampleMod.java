@@ -1,19 +1,20 @@
 package com.antonio32a.examplemod;
 
-import club.sk1er.mods.core.universal.UScreen;
-import com.antonio32a.examplemod.core.ModCoreInstaller;
+import com.antonio32a.examplemod.commands.ExampleCommand;
+import com.antonio32a.examplemod.core.Config;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.antonio32a.examplemod.commands.ExampleCommand;
-import com.antonio32a.examplemod.core.Config;
 
 @Mod(
         modid = ExampleMod.MODID, version =
@@ -28,9 +29,9 @@ public class ExampleMod {
     public static final String configLocation = "./config/examplemod.toml";
 
     @Getter private static ExampleMod instance;
+    @Getter @Setter private GuiScreen gui;
     @Getter private Logger logger;
     @Getter private Config config;
-    @Getter @Setter private UScreen gui;
 
     public ExampleMod() {
         instance = this;
@@ -40,13 +41,12 @@ public class ExampleMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
+        MinecraftForge.EVENT_BUS.register(this);
         config.preload();
         ClientCommandHandler.instance.registerCommand(new ExampleCommand());
         this.logger.info("ExampleMod loaded.");
     }
 
-    /*
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         if (gui != null) {
@@ -58,5 +58,4 @@ public class ExampleMod {
             gui = null;
         }
     }
-    */
 }

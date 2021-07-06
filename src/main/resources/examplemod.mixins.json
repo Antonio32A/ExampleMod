@@ -3,7 +3,7 @@
     "package": "com.antonio32a.examplemod.mixins",
     "refmap": "examplemod.mixins.refmap.json",
     "mixins": [
-        "FontRendererMixin"
+        "MinecraftMixin"
     ],
     "client": [],
     "server": []

@@ -1,8 +1,8 @@
 package com.antonio32a.examplemod.core;
 
-import club.sk1er.vigilance.Vigilant;
-import club.sk1er.vigilance.data.Property;
-import club.sk1er.vigilance.data.PropertyType;
+import gg.essential.vigilance.Vigilant;
+import gg.essential.vigilance.data.Property;
+import gg.essential.vigilance.data.PropertyType;
 import com.antonio32a.examplemod.ExampleMod;
 
 import java.io.File;

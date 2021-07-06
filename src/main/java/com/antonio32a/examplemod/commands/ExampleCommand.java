@@ -1,6 +1,5 @@
 package com.antonio32a.examplemod.commands;
 
-import club.sk1er.mods.core.ModCore;
 import com.antonio32a.examplemod.ExampleMod;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -23,6 +22,6 @@ public class ExampleCommand extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        ModCore.getInstance().getGuiHandler().open(ExampleMod.getInstance().getConfig().gui());
+        ExampleMod.getInstance().setGui(ExampleMod.getInstance().getConfig().gui());
     }
 }
