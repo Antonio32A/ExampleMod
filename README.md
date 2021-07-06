@@ -1,7 +1,8 @@
 # ExampleMod
 todo
 
-# VM Options in Development Environment 
+# Program Arguments in Development Environment 
 ```jvm
--Dfml.coreMods.load=com.antonio32a.examplemod.core.FMLLoadingPlugin
+--tweakClass org.spongepowered.asm.launch.MixinTweaker 
+--mixin examplemod.mixins.json
 ```

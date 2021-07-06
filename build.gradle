@@ -3,17 +3,21 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
         maven {
             name = "sponge"
             url = "https://repo.spongepowered.org/repository/maven-public"
         }
+        maven {
+            name = "jitpack"
+            url = "https://jitpack.io/"
+        }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
-        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.4"
-        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+        classpath "com.github.asbyth:ForgeGradle:FG_2.1-SNAPSHOT"
+        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
+        classpath "com.github.xcfrg:MixinGradle:0.6-SNAPSHOT"
     }
 }
 
@@ -30,11 +34,21 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 compileJava.options.encoding = "UTF-8"
 
+sourceSets {
+    main {
+        output.resourcesDir = java.outputDir
+    }
+}
+
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
     mappings = "stable_22"
-    makeObfSourceJar = false
+}
+
+mixin {
+    add sourceSets.main, "examplemod.mixins.refmap.json"
+    defaultObfuscationEnv searge
 }
 
 configurations {
@@ -45,28 +59,12 @@ configurations {
 repositories {
     maven { url "https://jitpack.io" }
     mavenCentral()
-    maven {
-        name = "sponge"
-        url = "https://repo.spongepowered.org/repository/maven-public"
-    }
-
-    maven {
-        name = "sk1er"
-        url = "https://repo.sk1er.club/repository/maven-public"
-    }
+    maven { url = "https://repo.spongepowered.org/repository/maven-public" }
+    maven { url = "https://repo.sk1er.club/repository/maven-public" }
 }
 
 dependencies {
-    provided files("libs/modcore.jar")
-    embed("club.sk1er:Elementa:249-10809-SNAPSHOT") {
-        exclude module: "kotlin-stdlib-jdk8"
-        exclude module: "kotlin-reflect"
-    }
-    embed("club.sk1er:Vigilance:91-10809-SNAPSHOT") {
-        exclude module: "kotlin-stdlib-jdk8"
-        exclude module: "kotlin-reflect"
-    }
-
+    embed("gg.essential:Vigilance:125-10809-SNAPSHOT")
     embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
         exclude module: "launchwrapper"
         exclude module: "guava"
@@ -87,31 +85,15 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.12"
 }
 
-sourceSets {
-    main {
-        output.resourcesDir = java.outputDir
-    }
-}
-
-mixin {
-    add sourceSets.main, "examplemod.mixins.refmap.json"
-    defaultObfuscationEnv searge
-}
-
-jar {
-    enabled = false
-}
-
 shadowJar {
     archiveName = tasks.jar.archiveName
     classifier = ""
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest.attributes(
-            "FMLCorePluginContainsFMLMod": "true",
-            "ForceLoadAsMod": "true",
+            "FMLCorePluginContainsFMLMod": true,
+            "ForceLoadAsMod": true,
             "ModSide": "CLIENT",
-            "FMLCorePlugin": "com.antonio32a.examplemod.core.FMLLoadingPlugin",
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
             "MixinConfigs": "examplemod.mixins.json"
     )
@@ -123,16 +105,15 @@ shadowJar {
     exclude("META-INF/versions/")
     exclude("LICENSE.txt")
 
-    relocate "club.sk1er.vigilance", "com.antonio32a.vigilance"
-    relocate "club.sk1er.elementa", "com.antonio32a.elementa"
+    relocate "gg.essential.vigilance", "com.antonio32a.vigilance"
+    relocate "gg.essential.elementa", "com.antonio32a.elementa"
+    relocate "gg.essential.universal", "com.antonio32a.universal"
+    relocate "kotlin", "com.antonio32a.kotlin"
 
     configurations = [project.configurations.embed]
 }
 
-mixin {
-    add sourceSets.main, "examplemod.mixins.refmap.json"
-    defaultObfuscationEnv searge
-}
+reobfJar.dependsOn tasks.shadowJar
 
 reobf {
     shadowJar {
@@ -140,22 +121,16 @@ reobf {
     }
 }
 
-reobfJar.dependsOn tasks.shadowJar
-
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include "mcmod.info"
 
-        // replace version and mcversion
         expand "version": project.version, "mcversion": project.minecraft.version
     }
 
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
     }
