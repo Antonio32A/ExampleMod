@@ -1,27 +1,17 @@
 package com.antonio32a.examplemod.commands;
 
 import com.antonio32a.examplemod.ExampleMod;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
+import gg.essential.api.EssentialAPI;
+import gg.essential.api.commands.Command;
+import gg.essential.api.commands.DefaultHandler;
 
-public class ExampleCommand extends CommandBase {
-    @Override
-    public String getCommandName() {
-        return "example";
+public class ExampleCommand extends Command {
+    public ExampleCommand() {
+        super("example");
     }
 
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/example";
-    }
-
-    @Override
-    public int getRequiredPermissionLevel() {
-        return -1;
-    }
-
-    @Override
-    public void processCommand(ICommandSender sender, String[] args) {
-        ExampleMod.getInstance().setGui(ExampleMod.getInstance().getConfig().gui());
+    @DefaultHandler
+    public void handle() {
+        EssentialAPI.getGuiUtil().openScreen(ExampleMod.getInstance().getConfig().gui());
     }
 }
