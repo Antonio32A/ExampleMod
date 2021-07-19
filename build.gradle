@@ -67,14 +67,6 @@ dependencies {
     implementation "gg.essential:Essential:1193-10809-SNAPSHOT"
     embed "gg.essential:loader-launchwrapper:1.0.2"
 
-    embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
-        exclude module: "launchwrapper"
-        exclude module: "guava"
-        exclude module: "gson"
-        exclude module: "commons-io"
-        exclude module: "log4j-core"
-    }
-
     annotationProcessor "com.google.guava:guava:21.0"
     annotationProcessor "org.apache.logging.log4j:log4j-core:2.0-beta9"
     annotationProcessor "org.ow2.asm:asm-tree:6.2"
