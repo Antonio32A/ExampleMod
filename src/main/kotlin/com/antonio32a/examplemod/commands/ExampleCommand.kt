@@ -1,17 +1,13 @@
-package com.antonio32a.examplemod.commands;
+package com.antonio32a.examplemod.commands
 
-import com.antonio32a.examplemod.ExampleMod;
-import gg.essential.api.EssentialAPI;
-import gg.essential.api.commands.Command;
-import gg.essential.api.commands.DefaultHandler;
+import com.antonio32a.examplemod.ExampleMod
+import gg.essential.api.EssentialAPI
+import gg.essential.api.commands.Command
+import gg.essential.api.commands.DefaultHandler
 
-public class ExampleCommand extends Command {
-    public ExampleCommand() {
-        super("example");
-    }
-
+class ExampleCommand : Command("example") {
     @DefaultHandler
-    public void handle() {
-        EssentialAPI.getGuiUtil().openScreen(ExampleMod.getInstance().getConfig().gui());
+    fun handle() {
+        EssentialAPI.getGuiUtil().openScreen(ExampleMod.config.gui())
     }
 }
